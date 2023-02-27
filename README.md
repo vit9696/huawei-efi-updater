@@ -3,7 +3,19 @@ huawei-efi-updater
 
 Allows updating UEFI firmware without HUAWEI PC Manager or Windows.
 
-#### Updating firmware
+#### Updating firmware with Linux
+
+1. Copy the UEFI capsule file to the InsydeH2O specific location (`/boot/efi/EFI/UpdateCapsule/CapsuleUpdateFile0000.bin`).
+2. Set `OsIndications` variable to firmware update mode:
+
+    ```sh
+    printf "\x07\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00" \
+      > /sys/firmware/efi/efivars/OsIndications-8be4df61-93ca-11d2-aa0d-00e098032b8c
+    ```
+
+3. Reboot
+
+#### Updating firmware without OS
 
 1. Create a FAT32 formatted USB flash drive.
 2. Copy `EFI` directory for the correct model to the USB drive root.
