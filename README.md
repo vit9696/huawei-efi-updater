@@ -5,7 +5,7 @@ Allows updating UEFI firmware without HUAWEI PC Manager or Windows.
 
 #### Updating firmware with Linux
 
-1. Copy the UEFI capsule file to the InsydeH2O specific location (`/boot/efi/EFI/UpdateCapsule/CapsuleUpdateFile0000.bin`).
+1. Copy the UEFI capsule file (`UEFI_FW.cap`) to the InsydeH2O specific location (`/boot/efi/EFI/UpdateCapsule/CapsuleUpdateFile0000.bin`).
 2. Set `OsIndications` variable to firmware update mode:
 
     ```sh
@@ -17,6 +17,13 @@ Allows updating UEFI firmware without HUAWEI PC Manager or Windows.
 
 #### Updating firmware without OS
 
+There are two ways to update without an OS:
+
+- Via HUAWEI CapAgent. This method works with all firmware versions. The trick is apparently a boot option to a special file.
+- Via EDK II CapsuleApp. This method works only on old firmware versions (e.g. 1.06) and will return `EFI_UNSUPPORTED` on new firmware.
+
+After choosing the method proceed with the following steps and the contents of `CapAgent` or `CapsuleApp` directory:
+
 1. Create a FAT32 formatted USB flash drive.
 2. Copy `EFI` directory for the correct model to the USB drive root.
 3. Disable UEFI Secure Boot in BIOS settings.
@@ -24,6 +31,8 @@ Allows updating UEFI firmware without HUAWEI PC Manager or Windows.
 5. Wait for timeout to expire for startup.nsh to run.
 6. The system will reboot to install the update.
 7. Enable UEFI Secure Boot in BIOS settings.
+
+*Note*: CapAgent.efi is signed and can be launched without disabling UEFI Secure Boot, if one creates a dedicated boot option from the operating system.
 
 #### Generating capsule
 
